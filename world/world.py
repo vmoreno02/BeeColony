@@ -1,4 +1,5 @@
 """Properties of the world"""
+"""Sets up world but doesn't do much else, all calculations happen in other places"""
 
 from typing import List, Tuple
 from .bee import Bee, REST_TIMER
@@ -14,15 +15,15 @@ BAD_SITE = 2
 
 class World:
     def __init__(self) -> None:
-        self.bees : set(Bee) = self.create_bees()
-        self.sites : List[Site] = self.create_sites()
+        self.bees : set() = self.create_bees()
+        self.sites : List[Site] =  []#self.create_sites()
 
-    def create_bees(self) -> set(Bee):
+    def create_bees(self) -> set():
         bees = set()
         for i in range(NUM_BEES):
             time = random.randint(1, REST_TIMER)
             # TODO: fix position, figure out how bees are situated at colony
-            bee = Bee(time, None, None)
+            bee = Bee(time, None, None, i)
             bees.add(bee)
 
         return bees
@@ -41,7 +42,7 @@ class World:
 
         return sites
 
-    def get_rand_positions(self) -> List[Tuple(int, int)]:
+    def get_rand_positions(self) -> List:
         # TODO: implement for a circle of sites around the colony
         return []
 

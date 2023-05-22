@@ -4,14 +4,14 @@ from typing import Tuple
 
 
 class Site:
-    def __init__(self, pos: Tuple(int, int), quality: int) -> None:
+    def __init__(self, pos, quality: int) -> None:
         self.pos = pos
         self.quality = quality
 
-    def get_pos(self) -> Tuple(int, int):
+    def get_pos(self):
         return self.pos
     
-    def set_pos(self, pos: Tuple(int, int)) -> None:
+    def set_pos(self, pos) -> None:
         self.pos = pos
 
     def get_quality(self) -> int:
