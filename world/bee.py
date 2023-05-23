@@ -1,5 +1,7 @@
 """This class contains the behavior for each individual bee."""
 
+# TODO: implement moving functions
+
 from state.state import State, RestState, AssessState, ExploreState, DanceState, TravelAssessState, TravelDanceState, TravelRestState, TravelSiteState
 from state.bee_engine import BeeEngine
 from bee_site import Site
@@ -30,6 +32,8 @@ class Bee:
     def set_state(self, state : State) -> None:
         self.state = state
 
+    # main method that is called every second
+    # updates each state and then acts according to cur state
     def update(self) -> None:
         self.state.update()
 
@@ -84,7 +88,8 @@ class Bee:
             self.has_assessed = True
 
     def rest(self) -> None:
-        self.observer.notify_rest(self)
+        if self.state.get_timer() == REST_TIMER:
+            self.observer.notify_rest(self)
 
     def travel_site(self) -> None:
         # move to site
@@ -107,3 +112,15 @@ class Bee:
 
     def notify_not_dance(self):
         self.observer.notify_not_dance(self)
+
+    # check if there's a site nearby
+    def find_sites(self):
+        return self.observer.find_sites(self)
+    
+    # check if the target site is nearby
+    def find_target_site(self):
+        return self.observer.find_target_site(self, self.chosen_site)
+    
+    # check if hub is nearby
+    def find_hub(self):
+        return self.observer.find_hub(self)

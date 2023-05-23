@@ -1,6 +1,8 @@
 """Properties of the world"""
 """Sets up world but doesn't do much else, all calculations happen in other places"""
 
+# TODO: implement get_random_positions, fix position thing in create_bees, use create_sites in init
+
 from typing import List, Tuple
 from .bee import Bee, REST_TIMER
 from .bee_site import Site

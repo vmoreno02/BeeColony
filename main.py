@@ -3,9 +3,6 @@ from state.bee_engine import BeeEngine
 from threading import Timer
 
 def main():
-    msg = "hello world"
-    print(msg)
-
     world = World()
     engine = BeeEngine(world=world)
 

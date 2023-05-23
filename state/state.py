@@ -1,5 +1,6 @@
 """This file contains the state classes and transitions."""
 """All times are ints and will be decremented by some int."""
+"""Use of the State Pattern prevents the need for a giant transition function or storing prev state"""
 
 from world.bee import *
 
@@ -128,6 +129,7 @@ class DanceState(State):
         timer -= 1
         if timer <= 0:
             if self.observer.num_dance_cycles > 0:
+                self.observer.num_dance_cycles -= 1
                 self.to_travel_site = True
             else:
                 self.to_rest = True
@@ -159,7 +161,8 @@ class TravelRestState(TravelState):
 
     def update(self) -> None:
         # if hub is within sensor reading, transition
-        pass
+        if self.observer.find_hub():
+            self.transition()
 
     def transition(self) -> None:
         self.observer.set_state(RestState(self.observer, REST_TIMER))
@@ -170,7 +173,8 @@ class TravelAssessState(TravelState):
 
     def update(self) -> None:
         # if site is within sensor reading, transition
-        pass
+        if self.observer.find_target_site():
+            self.transition()
 
     def transition(self) -> None:
         self.observer.set_state(AssessState(self.observer, ASSESS_TIMER))
@@ -181,7 +185,8 @@ class TravelDanceState(TravelState):
 
     def update(self) -> None:
         # if hub is within sensor reading, transition
-        pass
+        if self.observer.find_hub():
+            self.transition()
 
     def transition(self) -> None:
         self.observer.set_state(DanceState(self.observer, DANCE_TIMER))
@@ -192,7 +197,8 @@ class TravelSiteState(TravelState):
 
     def update(self) -> None:
         # if site is within sensor reading, transition
-        pass
+        if self.observer.find_target_site():
+            self.transition()
 
     def transition(self) -> None:
         self.observer.set_state(AssessState(self.observer, ASSESS_TIMER))
