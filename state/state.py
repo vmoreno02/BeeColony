@@ -1,6 +1,7 @@
 """This file contains the state classes and transitions."""
 """All times are ints and will be decremented by some int."""
 """Use of the State Pattern prevents the need for a giant transition function or storing prev state"""
+"""Use of the Observer Pattern for access to the Bee that is using the state"""
 
 from world.bee import *
 
