@@ -4,7 +4,7 @@
 # TODO: implement get_random_positions, fix position thing in create_bees, use create_sites in init
 
 from typing import List, Tuple
-from .bee import Bee, REST_TIMER
+from state.bee import Bee, REST_TIMER
 from .bee_site import Site
 import random
 
@@ -25,8 +25,10 @@ class World:
         for i in range(NUM_BEES):
             time = random.randint(1, REST_TIMER)
             # TODO: fix position, figure out how bees are situated at colony
-            bee = Bee(time, None, None, i)
+            bee = Bee(time, (0, 0), None, i)
             bees.add(bee)
+
+            bee.print_bee()
 
         return bees
     

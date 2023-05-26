@@ -1,5 +1,5 @@
-from world.world import World
 from state.bee_engine import BeeEngine
+from world.world import World
 from threading import Timer
 
 def main():

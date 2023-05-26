@@ -1,8 +1,11 @@
 """Controller for all bees"""
+"""Makes bees interact"""
+"""Watches bees to track those in rest and dance states (doesn't care about the rest)"""
+"""Updates quorum somehow..."""
 
 # TODO: implement is_in_range_of_site, find_sites, find_target_site, get_hub, get_site, check_quorum
 
-from world.bee import Bee
+from state.bee import Bee
 from world.world import World
 from world.bee_site import Site
 from typing import List
@@ -108,3 +111,13 @@ class BeeEngine:
     # check quorum numbers
     def check_quorum(self):
         pass
+
+    # adds site to quorum dict
+    # if site already exists, just add bee to values
+    def add_site_to_quorum(self, bee: Bee, site: Site):
+        if site in self.quorum:
+            self.quorum[site].add(bee)
+            if len(self.quorum[site]) > self.largest_quorum:
+                self.largest_quorum = len(self.quorum[site])
+        else:
+            self.quorum[site] = set()

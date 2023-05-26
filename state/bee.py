@@ -1,32 +1,32 @@
 """This class contains the behavior for each individual bee."""
+"""Use of the Observer Pattern for access to the BeeEngine"""
+"""Does not interact with any other bees"""
 
 # TODO: implement moving functions
 
 from state.state import State, RestState, AssessState, ExploreState, DanceState, TravelAssessState, TravelDanceState, TravelRestState, TravelSiteState
-from state.bee_engine import BeeEngine
-from bee_site import Site
+from state.state import REST_TIMER, ASSESS_TIMER, DANCE_TIMER, EXPLORE_TIMER
+#from state.bee_engine import BeeEngine
+from world.bee_site import Site
 from typing import Tuple
 
-# constants
-REST_TIMER = 10
-EXPLORE_TIMER = 20
-DANCE_TIMER = 5
-ASSESS_TIMER = 10
 
 class Bee:
     def __init__(self, time: int, position, vector, id: int) -> None:
-        self.state : State = RestState(observer=self, timer=time) # each bee begins in rest state
         self.position = position
         self.vector = vector
         self.chosen_site : Site = None # once the quorum num of bees have the same site as the chosen site, end simulation
-        self.observer : BeeEngine = None # observer will be the engine
+        self.observer = None # observer will be the engine
         self.id = id
 
         self.num_dance_cycles = 0 # determined by quality of site and in assess state
         self.has_assessed = False # used to prevent dance cycles from going on forever
         self.coin_heads = False # used to force a resting bee to go to site
 
-    def set_observer(self, observer : BeeEngine) -> None:
+        self.state : State = RestState(observer=self, timer=time) # each bee begins in rest state
+
+
+    def set_observer(self, observer) -> None:
         self.observer = observer
 
     def set_state(self, state : State) -> None:
@@ -124,3 +124,11 @@ class Bee:
     # check if hub is nearby
     def find_hub(self):
         return self.observer.find_hub(self)
+    
+    # prints bee's data for testing
+    def print_bee(self):
+        s = "Bee no." + str(self.id)
+        s = s + ", position: " + str(self.position)
+        s = s + " , vector: " + str(self.vector)
+        s = s + ", state: " + str(type(self.state))
+        print(s)
