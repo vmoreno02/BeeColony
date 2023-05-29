@@ -12,6 +12,7 @@ from typing import List
 import random
 
 QUORUM = 8
+SENSOR_RADIUS = 3
 
 class BeeEngine:
     def __init__(self, world: World) -> None:
@@ -87,16 +88,37 @@ class BeeEngine:
         return i < 8
 
     # scan within a certain radius for any sites
-    def find_sites(self, bee: Bee) -> bool:
-        pass
+    def find_sites(self, bee: Bee):
+        # check if a site is within the bee's sensor radius
+        max_x = bee.position[0] + SENSOR_RADIUS
+        min_x = bee.position[0] - SENSOR_RADIUS
+        max_y = bee.position[1] + SENSOR_RADIUS
+        min_y = bee.position[1] - SENSOR_RADIUS
+
+        for site in self.sites:
+            if site.get_pos()[0] < max_x and site.get_pos()[0] > min_x:
+                if site.get_pos()[1] < max_y and site.get_pos()[1] > min_y:
+                    return site
+                
+        return None
 
     # scan within a certain radius for a particular site
     def find_target_site(self, bee: Bee, site: Site) -> bool:
-        pass
+        # check if the site is within the bee's sensor radius
+        max_x = bee.position[0] + SENSOR_RADIUS
+        min_x = bee.position[0] - SENSOR_RADIUS
+        max_y = bee.position[1] + SENSOR_RADIUS
+        min_y = bee.position[1] - SENSOR_RADIUS
+
+        if site.get_pos()[0] < max_x and site.get_pos()[0] > min_x:
+            if site.get_pos()[1] < max_y and site.get_pos()[1] > min_y:
+                return True
+                
+        return False
 
     # scan within a certain radius for the hub
     def find_hub(self, bee: Bee) -> bool:
-        pass
+        return (abs(bee.position[0]) - SENSOR_RADIUS) <= 0 and (abs(bee.position[1]) - SENSOR_RADIUS) <= 0
 
     # calculate vector between bee and hub
     # used in travel_rest and travel_dance states

@@ -8,13 +8,15 @@ from state.state import State, RestState, AssessState, ExploreState, DanceState,
 from state.state import REST_TIMER, ASSESS_TIMER, DANCE_TIMER, EXPLORE_TIMER
 #from state.bee_engine import BeeEngine
 from world.bee_site import Site
+from world.vector import Vector
 from typing import Tuple
+import random, math
 
 
 class Bee:
-    def __init__(self, time: int, position, vector, id: int) -> None:
+    def __init__(self, time: int, position, vector: Vector, id: int) -> None:
         self.position = position
-        self.vector = vector
+        self.vector : Vector = vector
         self.chosen_site : Site = None # once the quorum num of bees have the same site as the chosen site, end simulation
         self.observer = None # observer will be the engine
         self.id = id
@@ -67,7 +69,17 @@ class Bee:
         # picks random vector in that range
         # moves forward 1 unit
         # also checks if in range of site and if so sets chosen site
-        pass
+
+        if self.position != (0, 0):
+            vec = self.get_rand_direction()
+            self.vector = self.vector.add(vec)            
+
+        x, y = self.vector.get_cartesian()
+        self.position = (x, y)
+
+        site = self.observer.find_sites()
+        if site:
+            self.chosen_site = site
 
     def dance(self) -> None:
         if self.state.get_timer() == DANCE_TIMER:
@@ -86,6 +98,7 @@ class Bee:
                 self.num_dance_cycles = 1
 
             self.has_assessed = True
+            # quorum stuff here
 
     def rest(self) -> None:
         if self.state.get_timer() == REST_TIMER:
@@ -107,6 +120,14 @@ class Bee:
         # move to hub
         pass
 
+    def get_rand_direction(self):
+        r1 = self.vector.r - (math.pi / 4) # 45 degrees
+        r2 = self.vector.r + (math.pi / 4) # total range 90 degrees
+
+        angle = random.uniform(r1, r2)
+
+        return Vector(1, angle)
+
     def notify_not_rest(self):
         self.observer.notify_not_rest(self)
 
@@ -124,6 +145,10 @@ class Bee:
     # check if hub is nearby
     def find_hub(self):
         return self.observer.find_hub(self)
+    
+    # found a site to add to the quorum count
+    def add_site_to_quorum(self):
+        self.observer.add_site_to_quorum(self, self.chosen_site)
     
     # prints bee's data for testing
     def print_bee(self):

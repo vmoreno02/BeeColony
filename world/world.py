@@ -1,12 +1,13 @@
 """Properties of the world"""
 """Sets up world but doesn't do much else, all calculations happen in other places"""
 
-# TODO: implement get_random_positions, fix position thing in create_bees, use create_sites in init
+# TODO: implement get_random_positions, use create_sites in init
 
 from typing import List, Tuple
 from state.bee import Bee, REST_TIMER
 from .bee_site import Site
-import random
+from .vector import Vector
+import random, math
 
 # constants
 NUM_BEES = 15
@@ -14,18 +15,19 @@ NUM_SITES = 5
 MAX_LENGTH = 25
 MIN_LENGTH = -25
 BAD_SITE = 2
+RADIUS_SITE = 18
 
 class World:
     def __init__(self) -> None:
         self.bees : set() = self.create_bees()
-        self.sites : List[Site] =  []#self.create_sites()
+        self.sites : List[Site] =  self.create_sites()
 
     def create_bees(self) -> set():
         bees = set()
         for i in range(NUM_BEES):
             time = random.randint(1, REST_TIMER)
-            # TODO: fix position, figure out how bees are situated at colony
-            bee = Bee(time, (0, 0), None, i)
+            vector = self.get_rand_vec()
+            bee = Bee(time, (0, 0), vector, i)
             bees.add(bee)
 
             bee.print_bee()
@@ -47,7 +49,20 @@ class World:
         return sites
 
     def get_rand_positions(self) -> List:
-        # TODO: implement for a circle of sites around the colony
-        return []
+        positions = []
+        space_between = (2 * math.pi) / NUM_SITES
+        angle = 0
+
+        for i in range(NUM_SITES):
+            vec = Vector(RADIUS_SITE, angle)
+            positions.append(vec)
+            angle += space_between
+
+        return positions
+    
+    def get_rand_vec(self) -> Vector:
+        r = 1
+        theta = random.uniform(0, (2 * math.pi))
+        return Vector(r, theta)
 
 

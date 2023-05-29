@@ -21,3 +21,8 @@ class Vector:
         theta_new = (self.theta + math.pi) % (2 * math.pi) # accounts for going over 2pi or under 0
         r_new = 1
         return Vector(r_new, theta_new)
+    
+    def get_cartesian(self):
+        x = self.r * math.acos(self.theta)
+        y = self.r * math.asin(self.theta)
+        return x, y
