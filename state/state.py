@@ -173,6 +173,8 @@ class TravelRestState(TravelState):
             self.transition()
 
     def transition(self) -> None:
+        self.observer.position = (0, 0)
+        self.observer.get_rand_direction()
         self.observer.set_state(RestState(self.observer, REST_TIMER))
 
 class TravelAssessState(TravelState):

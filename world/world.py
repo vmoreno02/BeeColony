@@ -8,8 +8,8 @@ from .vector import Vector
 import random, math
 
 # constants
-NUM_BEES = 15
-NUM_SITES = 5
+NUM_BEES = 1
+NUM_SITES = 1
 MAX_LENGTH = 25
 MIN_LENGTH = -25
 BAD_SITE = 2
@@ -22,6 +22,9 @@ class World:
 
     def create_bees(self) -> set():
         bees = set()
+
+        # behold the bees
+        print("Behold the bees")
         for i in range(NUM_BEES):
             time = random.randint(1, REST_TIMER)
             vector = self.get_rand_vec()
@@ -45,7 +48,7 @@ class World:
         good_site.set_quality(10)
 
         # behold the sites
-        print("Behold the sites")
+        print("\nBehold the sites")
         for site in sites:
             site.print()
 

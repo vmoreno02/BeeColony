@@ -30,3 +30,9 @@ class Vector:
     def print(self) -> str:
         s = "r: " + str(self.r) + ", theta: " + str(self.theta)
         return s
+    
+if __name__ == "__main__":
+    vec = Vector(1, math.pi + 1)
+    print(vec.print())
+    new_vec = vec.get_reverse_unit_vec()
+    print(new_vec.print())

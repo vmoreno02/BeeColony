@@ -24,6 +24,7 @@ class BeeEngine:
         # site is key and list of bees is value
         self.quorum = {}
         self.largest_quorum = 0
+        self.largest_quorum_site = None
 
         # set of bees in dance state
         self.dancing = set()
@@ -132,7 +133,9 @@ class BeeEngine:
 
     # check quorum numbers
     def check_quorum(self):
-        pass
+        if self.largest_quorum >= QUORUM:
+            print("IDEAL SITE FOUND")
+            self.largest_quorum_site.print()
 
     # adds site to quorum dict
     # if site already exists, just add bee to values
@@ -141,5 +144,6 @@ class BeeEngine:
             self.quorum[site].add(bee)
             if len(self.quorum[site]) > self.largest_quorum:
                 self.largest_quorum = len(self.quorum[site])
+                self.largest_quorum_site = site
         else:
             self.quorum[site] = set()

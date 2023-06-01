@@ -63,6 +63,8 @@ class Bee:
         elif isinstance(self.state, TravelSiteState):
             self.travel_site()
 
+        print("new position: " + str(self.position))
+
     def explore(self) -> None:
         # used to move the bee as it explores
         # finds a 90 degree range with current vector in the middle
@@ -77,7 +79,7 @@ class Bee:
         x, y = self.vector.get_cartesian()
         self.position = (x, y)
 
-        site = self.observer.find_sites()
+        site = self.observer.find_sites(self)
         if site:
             self.chosen_site = site
 
