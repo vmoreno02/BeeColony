@@ -164,6 +164,8 @@ class TravelState(State):
 class TravelRestState(TravelState):
     def __init__(self, observer) -> None:
         super().__init__(observer)
+        print("bee no. " + str(self.observer.id) + " is in travel rest state")
+
 
     def update(self) -> None:
         # if hub is within sensor reading, transition
@@ -176,6 +178,8 @@ class TravelRestState(TravelState):
 class TravelAssessState(TravelState):
     def __init__(self, observer) -> None:
         super().__init__(observer)
+        print("bee no. " + str(self.observer.id) + " is in travel assess state")
+
 
     def update(self) -> None:
         # if site is within sensor reading, transition
@@ -188,6 +192,8 @@ class TravelAssessState(TravelState):
 class TravelDanceState(TravelState):
     def __init__(self, observer) -> None:
         super().__init__(observer)
+        print("bee no. " + str(self.observer.id) + " is in travel dance state")
+
 
     def update(self) -> None:
         # if hub is within sensor reading, transition
@@ -200,6 +206,8 @@ class TravelDanceState(TravelState):
 class TravelSiteState(TravelState):
     def __init__(self, observer) -> None:
         super().__init__(observer)
+        print("bee no. " + str(self.observer.id) + " is in travel site state")
+
 
     def update(self) -> None:
         # if site is within sensor reading, transition
