@@ -2,7 +2,7 @@
 """Use of the Observer Pattern for access to the BeeEngine"""
 """Does not interact with any other bees"""
 
-# TODO: implement moving functions
+# TODO: implement travel-to-site functions
 
 from state.state import State, RestState, AssessState, ExploreState, DanceState, TravelAssessState, TravelDanceState, TravelRestState, TravelSiteState
 from state.state import REST_TIMER, ASSESS_TIMER, DANCE_TIMER, EXPLORE_TIMER
@@ -73,7 +73,7 @@ class Bee:
         # also checks if in range of site and if so sets chosen site
 
         if self.position != (0, 0):
-            vec = self.get_rand_direction()
+            vec = self.get_rand_direction_in_range()
             self.vector = self.vector.add(vec)            
 
         x, y = self.vector.get_cartesian()
@@ -100,7 +100,7 @@ class Bee:
                 self.num_dance_cycles = 1
 
             self.has_assessed = True
-            # quorum stuff here
+            self.observer.add_site_to_quorum(self, self.chosen_site)
 
     def rest(self) -> None:
         if self.state.get_timer() == REST_TIMER:
@@ -112,7 +112,10 @@ class Bee:
 
     def travel_dance(self) -> None:
         # move to hub
-        pass
+        v = self.vector.get_reverse_unit_vec()
+        self.vector = self.vector.add(v)
+        x, y = self.vector.get_cartesian()
+        self.position = (x, y)
 
     def travel_assess(self) -> None:
         # move to site
@@ -120,9 +123,17 @@ class Bee:
 
     def travel_rest(self) -> None:
         # move to hub
-        pass
+        v = self.vector.get_reverse_unit_vec()
+        self.vector = self.vector.add(v)
+        x, y = self.vector.get_cartesian()
+        self.position = (x, y)
 
     def get_rand_direction(self):
+        r = 1
+        theta = random.uniform(0, (2 * math.pi))
+        self.vector = Vector(r, theta)
+
+    def get_rand_direction_in_range(self):
         r1 = self.vector.r - (math.pi / 4) # 45 degrees
         r2 = self.vector.r + (math.pi / 4) # total range 90 degrees
 
@@ -147,10 +158,6 @@ class Bee:
     # check if hub is nearby
     def find_hub(self):
         return self.observer.find_hub(self)
-    
-    # found a site to add to the quorum count
-    def add_site_to_quorum(self):
-        self.observer.add_site_to_quorum(self, self.chosen_site)
     
     # prints bee's data for testing
     def print_bee(self):

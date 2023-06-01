@@ -3,7 +3,7 @@
 """Watches bees to track those in rest and dance states (doesn't care about the rest)"""
 """Updates quorum somehow..."""
 
-# TODO: implement is_in_range_of_site, find_sites, find_target_site, get_hub, get_site, check_quorum
+# TODO: implement get_site
 
 from state.bee import Bee
 from world.world import World
@@ -65,11 +65,6 @@ class BeeEngine:
             if b.id == bee.id:
                 list.remove(b)
                 break
-
-    def is_in_range_of_site(self, bee: Bee) -> Site:
-        # returns true if bee is within a range of a certain radius of the site
-        # used only in explore state
-        return None
     
     # for each resting bee, coin flip for each dancing bee
     # engine forces state change to travel assess
@@ -120,11 +115,6 @@ class BeeEngine:
     # scan within a certain radius for the hub
     def find_hub(self, bee: Bee) -> bool:
         return (abs(bee.position[0]) - SENSOR_RADIUS) <= 0 and (abs(bee.position[1]) - SENSOR_RADIUS) <= 0
-
-    # calculate vector between bee and hub
-    # used in travel_rest and travel_dance states
-    def get_hub(self, bee: Bee):
-        pass
 
     # calculate vector between bee and site
     # used in travel_assess and travel_site
