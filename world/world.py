@@ -1,8 +1,6 @@
 """Properties of the world"""
 """Sets up world but doesn't do much else, all calculations happen in other places"""
 
-# TODO: implement get_random_positions, use create_sites in init
-
 from typing import List, Tuple
 from state.bee import Bee, REST_TIMER
 from .bee_site import Site
@@ -46,6 +44,11 @@ class World:
         good_site : Site = sites[0]
         good_site.set_quality(10)
 
+        # behold the sites
+        print("Behold the sites")
+        for site in sites:
+            site.print()
+
         return sites
 
     def get_rand_positions(self) -> List:
@@ -55,7 +58,7 @@ class World:
 
         for i in range(NUM_SITES):
             vec = Vector(RADIUS_SITE, angle)
-            positions.append(vec)
+            positions.append(vec.get_cartesian())
             angle += space_between
 
         return positions

@@ -154,6 +154,6 @@ class Bee:
     def print_bee(self):
         s = "Bee no." + str(self.id)
         s = s + ", position: " + str(self.position)
-        s = s + " , vector: " + str(self.vector)
+        s = s + " , vector: " + self.vector.print()
         s = s + ", state: " + str(type(self.state))
         print(s)

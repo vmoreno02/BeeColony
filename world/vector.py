@@ -9,8 +9,8 @@ class Vector:
         self.theta = theta
 
     def add(self, vec):
-        x = (self.r * math.acos(self.theta)) + (vec.r * math.acos(self.theta))
-        y = (self.r * math.asin(self.theta)) + (vec.r * math.asin(self.theta))
+        x = (self.r * math.cos(self.theta)) + (vec.r * math.cos(self.theta))
+        y = (self.r * math.sin(self.theta)) + (vec.r * math.sin(self.theta))
 
         r_new = math.hypot(x, y)
         theta_new = math.atan(y / x)
@@ -23,6 +23,10 @@ class Vector:
         return Vector(r_new, theta_new)
     
     def get_cartesian(self):
-        x = self.r * math.acos(self.theta)
-        y = self.r * math.asin(self.theta)
+        x = self.r * math.cos(self.theta)
+        y = self.r * math.sin(self.theta)
         return x, y
+    
+    def print(self) -> str:
+        s = "r: " + str(self.r) + ", theta: " + str(self.theta)
+        return s

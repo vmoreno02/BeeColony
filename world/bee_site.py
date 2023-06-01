@@ -19,3 +19,7 @@ class Site:
     
     def set_quality(self, quality: int) -> None:
         self.quality = quality
+
+
+    def print(self):
+        print("pos: " + str(self.pos) + ", quality: " + str(self.quality) )
